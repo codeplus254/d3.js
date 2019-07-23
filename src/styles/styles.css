@@ -1,0 +1,17 @@
+body {
+  margin: 0px;
+  overflow: hidden;
+  background-color: antiquewhite;
+};
+
+svg {
+  /* don't add a semicolon at the end unless done with the svg */
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+rect {
+  fill: steelblue;
+}
+
+text {
+  font-size: 1.4em;
+};

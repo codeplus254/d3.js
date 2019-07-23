@@ -9,13 +9,21 @@ module.exports = {
     },
     plugins: [
       new HtmlWebpackPlugin({
-        title: 'Webpack 4 Starter',
+        title: 'Get visual with d3.js',
         template: './src/index.html',
         inject: true,
         minify: {
             removeComments: true,
             collapseWhitespace: false
         }
-    })
-    ], 
+    }),
+    ],
+    module: {
+      rules: [
+        {
+          test: /\.css$/,
+          use: [{ loader: 'style-loader' }, { loader: 'css-loader' }],
+        },
+      ],
+    }
 };
