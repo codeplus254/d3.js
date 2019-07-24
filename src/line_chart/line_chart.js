@@ -1,12 +1,15 @@
 import { 
   select, 
   csv,
-  scaleLinear, 
+  scaleLinear,
+  scaleTime, 
   extent,
   axisLeft,
-  axisBottom
+  axisBottom,
+  line,
+  curveBasis,
 } from 'd3';
-import './scatterPlot.css';
+import './line_chart.css';
 
 const svg = select('svg');
 
@@ -14,25 +17,25 @@ const height = +svg.attr('height'); //return a number
 const width = +svg.attr('width');
 
 const render = data => {
-  const title = 'Cars: Horsepower vs Weight';
-  const xValue = d => d.horsepower;
-  const xAxisLabel = 'Horsepower'
-  const yValue = d => d.weight;
-  const yAxisLabel = 'Weight';
-  const circleRadius = 10;
+  const title = 'A week in San Fransisco';
+  const xValue = d => d.timestamp;
+  const xAxisLabel = 'Time'
+  const yValue = d => d.temperature;
+  const yAxisLabel = 'Temperature';
+  const circleRadius = 6;
    
-  const margin = {top: 60, right: 40, bottom: 90, left: 150};
+  const margin = {top: 60, right: 40, bottom: 90, left: 105};
   const innerWidth = width - margin.left - margin.right;
   const innerHeight = height - margin.top - margin.bottom;
   
-  const xScale = scaleLinear()
+  const xScale = scaleTime()
     .domain(extent(data, xValue))
     .range([0, innerWidth])
     .nice();
 
   const yScale = scaleLinear()
     .domain(extent(data, yValue))
-    .range([0, innerHeight])
+    .range([innerHeight, 0])
     .nice();
 
   const g = svg.append('g')
@@ -54,7 +57,7 @@ const render = data => {
 
   yAxisG.append('text')
       .attr('class', 'axis-label')
-      .attr('y', -93)
+      .attr('y', -60)
       .attr('x', -innerHeight/2 )
       .attr('fill','black')
       .attr('transform', `rotate(-90)`)
@@ -73,11 +76,14 @@ const render = data => {
     .attr('fill','black')
     .text(xAxisLabel);
 
-  g.selectAll('circle').data(data)
-    .enter().append('circle')
-      .attr('cy', d => yScale(yValue(d)))
-      .attr('cx', d => xScale(xValue(d)))
-      .attr('r', circleRadius);
+  const lineGenerator = line()
+    .x(d => xScale(xValue(d)))
+    .y(d => yScale(yValue(d)))
+    .curve(curveBasis);
+
+  g.append('path')
+    .attr('class', 'line-path')
+    .attr('d', lineGenerator(data));
 
   g.append('text')
   .attr('class', 'title')
@@ -85,24 +91,18 @@ const render = data => {
     .text(title);
 };
 
-const showScatterPlot = boolean => {
-  csv('https://vizhub.com/henry1987/datasets/auto-mpg.csv')
+const showLineAndAreaPlots = boolean => {
+  csv('https://vizhub.com/curran/datasets/temperature-in-san-francisco.csv')
     .then(data=> {
       data.forEach(d => {
-        d.mpg = +d.mpg; //parseInt
-        d.cylinders = + d.cylinders;
-        d.displacement = +d.displacement;
-        d.horsepower = +d.horsepower;
-        d.weight = +d.weight;
-        d.acceleration = +d.acceleration;
-        d.year = +d.year;
+        d.temperature = +d.temperature; //parseInt
+        d.timestamp = new Date(d.timestamp);
       });
-      
       if(boolean){ 
         render(data);
       };
     })
 };
 
-export { showScatterPlot };
+export { showLineAndAreaPlots };
 
