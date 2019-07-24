@@ -1,5 +1,6 @@
 import { select, csv,scaleLinear, max, scaleBand, axisLeft, axisBottom,
   format } from 'd3';
+import './barChart.css';
 
 const svg = select('svg');
 
