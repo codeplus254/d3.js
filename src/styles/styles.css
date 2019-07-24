@@ -6,7 +6,11 @@ body {
 
 rect {
   fill: steelblue;
-} 
+}
+circle {
+  fill: red;
+  opacity: 0.3;
+}
 
 text {
   font-family: sans-serif;
@@ -27,6 +31,6 @@ text {
 }
 
 .title {
-  font-size: 3.2em;
+  font-size: 3.7em;
   fill: #635F5D;
 }
