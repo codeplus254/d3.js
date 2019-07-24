@@ -2,16 +2,31 @@ body {
   margin: 0px;
   overflow: hidden;
   background-color: antiquewhite;
-};
-
-svg {
-  /* don't add a semicolon at the end unless done with the svg */
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
+
 rect {
   fill: steelblue;
-}
+} 
 
 text {
-  font-size: 1.4em;
-};
+  font-family: sans-serif;
+}
+
+.tick text {
+  font-size:2.5em;
+  fill: #635F5D;
+}
+ 
+.tick line {
+  stroke: #C0C0BB; 
+}
+
+.axis-label {
+  font-size: 5em;
+  fill: #8E8883;
+}
+
+.title {
+  font-size: 3.2em;
+  fill: #635F5D;
+}
