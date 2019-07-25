@@ -4,12 +4,14 @@ import {
   scaleLinear,
   scaleTime, 
   extent,
+  max,
   axisLeft,
   axisBottom,
-  line,
+  area,
   curveBasis,
+  format,
 } from 'd3';
-import './line_chart.css';
+import './area_chart.css';
 
 const svg = select('svg');
 
@@ -17,14 +19,13 @@ const height = +svg.attr('height'); //return a number
 const width = +svg.attr('width');
 
 const render = data => {
-  const title = 'A week in San Fransisco';
-  const xValue = d => d.timestamp;
-  const xAxisLabel = 'Time'
-  const yValue = d => d.temperature;
-  const yAxisLabel = 'Temperature';
-  const circleRadius = 6;
+  const title = 'Word Population';
+  const xValue = d => d.year;
+  const xAxisLabel = 'Year'
+  const yValue = d => d.population;
+  const yAxisLabel = 'Population';
    
-  const margin = {top: 60, right: 40, bottom: 90, left: 105};
+  const margin = {top: 60, right: 40, bottom: 88 , left: 105};
   const innerWidth = width - margin.left - margin.right;
   const innerHeight = height - margin.top - margin.bottom;
   
@@ -34,7 +35,7 @@ const render = data => {
     .nice();
 
   const yScale = scaleLinear()
-    .domain(extent(data, yValue))
+    .domain([0, max(data, yValue)])
     .range([innerHeight, 0])
     .nice();
 
@@ -42,12 +43,18 @@ const render = data => {
     .attr('transform', `translate(${margin.left},${margin.top})`);
 
   const xAxis = axisBottom(xScale)
+    .ticks(6)
     .tickSize(-innerHeight)
     .tickPadding(15);
+  
+  const yAxisTickFormat = number => 
+    format('.1s')(number)
+      .replace('G', 'B');
 
   const yAxis = axisLeft(yScale)
     .tickSize(-innerWidth)
-    .tickPadding(5);;
+    .tickPadding(10)
+    .tickFormat(yAxisTickFormat);
 
 
   const yAxisG = g.append('g')
@@ -76,33 +83,35 @@ const render = data => {
     .attr('fill','black')
     .text(xAxisLabel);
 
-  const lineGenerator = line()
+  const areaGenerator = area()
     .x(d => xScale(xValue(d)))
-    .y(d => yScale(yValue(d)))
+    .y0(innerHeight)
+    .y1(d => yScale(yValue(d)))
     .curve(curveBasis);
-
   g.append('path')
     .attr('class', 'line-path')
-    .attr('d', lineGenerator(data));
-
-  g.append('text')
+    .attr('d', areaGenerator(data));
+  
+  svg.append('text')
   .attr('class', 'title')
-    .attr('y', -10)
-    .text(title);
+  .attr('x', width / 2)
+  .attr('y', 45)
+  .text(title);
 };
 
-const showLineChart = boolean => {
-  csv('https://vizhub.com/curran/datasets/temperature-in-san-francisco.csv')
+const showAreaChart = boolean => {
+  csv('https://vizhub.com/curran/datasets/world-population-by-year-2015.csv')
     .then(data=> {
       data.forEach(d => {
-        d.temperature = +d.temperature; //parseInt
-        d.timestamp = new Date(d.timestamp);
+        d.population = +d.population; //parseInt
+        d.year = new Date(d.year);
       });
-      if(boolean){ 
+      
+      if(boolean){
         render(data);
       };
     })
 };
 
-export { showLineChart };
+export { showAreaChart };
 

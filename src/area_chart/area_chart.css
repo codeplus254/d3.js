@@ -1,0 +1,40 @@
+.line-path {
+  fill: maroon;
+}
+
+body {
+  margin: 0px;
+  overflow: hidden;
+}
+
+circle {
+  fill: steelblue;
+}
+
+.line-path{
+	fill: maroon;
+}
+
+text {
+  font-family: san-serif;
+}
+
+.tick text {
+  font-size: 2.7em;
+ fill: #635f5d; 
+}
+
+.tick line {
+  stroke: #c0c0bb;
+}
+
+.axis-label {
+  font-size: 5em;
+  fill: #8e8883;
+}
+
+.title {
+  font-size: 3.7em;
+  fill: #635f5d;
+  text-anchor: middle;
+}
