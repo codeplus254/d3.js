@@ -9,12 +9,20 @@ const makeFruit = type => ({
   id: Math.random()
 });
 let fruits = range(5)
-	.map( () => makeFruit('apple')); 
+  .map( () => makeFruit('apple'));
 
+let selectedFruit = null;
+
+const setSelectedFruit = id=> {
+  selectedFruit = id;
+  render();
+}
 const render = () => {
 	fruitBowl(svg, {
   	fruits, 
-    height: +svg.attr('height')
+    height: +svg.attr('height'),
+    setSelectedFruit,
+    selectedFruit,
   })
 };
 
