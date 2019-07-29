@@ -1,0 +1,8 @@
+.sphere {
+  fill: #4141ec;
+}
+.country {
+  fill: lightgreen;
+  stroke: black;
+  stroke-opacity: 0.1;
+}
