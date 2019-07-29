@@ -9,7 +9,7 @@ const radiusScale = scaleOrdinal()
 	.range([ 80, 50 ]);
 
 export const fruitBowl = (selection, props ) => {
-	const { fruits, height } = props;
+	const { fruits, height, setSelectedFruit, selectedFruit } = props;
 
   const bowl = selection.selectAll('rect')
   	.data([null])
@@ -32,7 +32,11 @@ export const fruitBowl = (selection, props ) => {
   groupsEnter.append('circle')
     .merge(groups.select('circle'))
     	.attr('r', d => radiusScale(d.type))
-    	.attr('fill', d => colorScale(d.type));
+      .attr('fill', d => colorScale(d.type))
+      .attr('stroke-width', 5)
+      .attr('stroke', d => d.id === selectedFruit ? 'black' : 'none')
+      .on('mouseover', d => setSelectedFruit(d.id))
+      .on('mouseout',() => setSelectedFruit(null));
   
   groupsEnter.append('text')
     .merge(groups.select('text'))
