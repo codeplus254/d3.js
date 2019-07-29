@@ -4,10 +4,11 @@ import { showScatterPlot } from './scatterplot/scatterPlot';
 import { showLineChart } from './line_chart/line_chart';
 import { showAreaChart } from './area_chart/area_chart';
 import { playWithFruits } from './general_update_pattern/updatePattern';
+import { showWorld } from './world_map/worldMap';
 
 import './styles/styles.css';
 
-let page = 'updatePattern';
+let page = 'worldMap';
 switch(page) {
   case 'barChart':
     smileAtTheCamera(false);
@@ -36,6 +37,10 @@ switch(page) {
     smileAtTheCamera(false);
     showAreaChart(false);
     playWithFruits(true);
+    break;
+  case 'worldMap':
+    smileAtTheCamera(false);
+    showWorld(true);
     break;
   default:
     showBarchart(false);
